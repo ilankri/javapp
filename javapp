@@ -1,0 +1,3 @@
+#!/bin/sh
+
+java -cp .:parser/java-cup-11a-runtime.jar:parser/parseur.jar JavaPP $@

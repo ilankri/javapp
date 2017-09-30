@@ -1,0 +1,9 @@
+COMPILATION
+
+  make
+
+USAGE
+
+  ./javapp input_file
+
+Then follow the indications on the screen.
