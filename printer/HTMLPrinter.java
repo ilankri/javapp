@@ -22,40 +22,47 @@ public class HTMLPrinter implements Printer {
         colors.put(Color.CYAN, "darkcyan");
     }
 
+    private static String HTMLEscSeq(String s) {
+        return "&" + s + ";";
+    }
+
     /*
      * Cette methode permet de traduire une chaine de caracteres en HTML
      * en remplacant les caracteres speciaux HTML par leur code
      * correspondant en HTML.
      */
-    public static final String escapeHTML(String s) {
+    private static final String escapeHTML(String s) {
         StringBuffer sb = new StringBuffer();
         int n = s.length();
 
         for (int i = 0; i < n; i++) {
             char c = s.charAt(i);
+            String t;
+
             switch (c) {
             case '<':
-                sb.append("&lt;");
+                t = HTMLEscSeq("lt");
                 break;
             case '>':
-                sb.append("&gt;");
+                t = HTMLEscSeq("gt");
                 break;
             case '&':
-                sb.append("&amp;");
+                t = HTMLEscSeq("amp");
                 break;
             case '"':
-                sb.append("&quot;");
+                t = HTMLEscSeq("quot");
                 break;
                 /*
                  * Be careful with this one (non-breaking white
                  * space).
                  */
             case ' ':
-                sb.append("&nbsp;");
+                t = HTMLEscSeq("nbsp");
                 break;
             default:
-                sb.append(c);
+                t = Character.toString(c);
             }
+            sb.append(t);
         }
         return sb.toString();
     }
@@ -101,7 +108,7 @@ public class HTMLPrinter implements Printer {
 
     /* Cette fonction permet de mettre une espace.  */
     public void space() {
-        out.print("&nbsp;");
+        out.print(escapeHTML(" "));
     }
 
     /*
