@@ -71,7 +71,7 @@ public class JavaPP {
         endStatement();
     }
 
-    private void print(CorpsClasse component) {
+    private void print(CorpsClasse component, boolean inClass) {
         if (component instanceof Commentaire) {
             print((Commentaire) component);
             printer.newline();
@@ -81,7 +81,7 @@ public class JavaPP {
             if (component instanceof DeclarationChamp)
                 print((DeclarationChamp) component);
             if (component instanceof DeclarationMethode)
-                print((DeclarationMethode) component);
+                print((DeclarationMethode) component, inClass);
             blankLine();
         }
     }
@@ -251,7 +251,7 @@ public class JavaPP {
         closeBlock();
     }
 
-    private void print(DeclarationMethode method) {
+    private void print(DeclarationMethode method, boolean inClass) {
         List<Argument> args = method.getArgs();
         String name = method.getName();
         int argc = args.size();
@@ -272,8 +272,12 @@ public class JavaPP {
             }
         }
         printer.print(")");
-        printer.space();
-        print(method.getBody());
+        if (inClass) {
+            printer.space();
+            print(method.getBody());
+        } else {
+            endStatement();
+        }
     }
 
     private void blankLine() {
@@ -288,9 +292,10 @@ public class JavaPP {
     private void print(DeclarationClasseOuInterface class_) {
         List<String> interfaces = class_.getInterfaces();
         String parent = class_.getParent();
+        boolean isClass = class_.isClass();
 
         printQualifiers(class_.getQualifiers());
-        if (class_.isClass())
+        if (isClass)
             print(Keyword.CLASS);
         else
             print(Keyword.INTERFACE);
@@ -321,7 +326,7 @@ public class JavaPP {
         blankLine();
         for (CorpsClasse member : class_.getBody()) {
             indent(++depth);
-            print(member);
+            print(member, isClass);
             depth--;
         }
         indent(depth);
