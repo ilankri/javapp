@@ -15,7 +15,7 @@ compile = $(JAVAC) -cp $(CLASSPATH) $(JAVACFLAGS)
 
 .SUFFIXES:
 .SUFFIXES: .class .java
-.PHONY: all clean
+.PHONY: all clean maintainer-clean
 
 all: $(cls)
 
