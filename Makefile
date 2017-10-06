@@ -4,17 +4,29 @@ JAVACFLAGS = -g -Xlint
 JAVA = java
 CLASSPATH = .:parser/java-cup-11a-runtime.jar:parser/parseur.jar
 
+CTAGS = etags
+TAGS = TAGS
+
 dirs = . ASA printer
 srcs = $(foreach dir,$(dirs),$(wildcard $(dir)/*.java))
-compile = $(JAVAC) -cp $(CLASSPATH) $(JAVACFLAGS)
-target = JavaPP.class
+cls = $(srcs:.java=.class)
 
+compile = $(JAVAC) -cp $(CLASSPATH) $(JAVACFLAGS)
+
+.SUFFIXES:
+.SUFFIXES: .class .java
 .PHONY: all clean
 
-all: $(target)
+all: $(cls)
 
-$(target): $(srcs)
+%.class: %.java
 	$(compile) $<
+
+$(TAGS): $(srcs)
+	$(CTAGS) $^
 
 clean:
 	$(RM) $(foreach dir,$(dirs),$(addsuffix *.class,$(dir)/))
+
+maintainer-clean: clean
+	$(RM) $(TAGS)
