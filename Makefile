@@ -1,7 +1,6 @@
 SHELL = /bin/sh
 JAVAC = javac
 JAVACFLAGS = -g -Xlint
-JAVA = java
 CLASSPATH = .:parser/java-cup-11a-runtime.jar:parser/parseur.jar
 
 CTAGS = etags
