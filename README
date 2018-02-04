@@ -4,6 +4,4 @@ COMPILATION
 
 USAGE
 
-  ./javapp input_file
-
-Then follow the indications on the screen.
+  ./javapp [-html] [-color] [-o <output_file>] <input_file>
